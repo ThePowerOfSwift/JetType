@@ -1,5 +1,5 @@
 # JetType
-Swift MacOS Typing Game using SceneKit
+Swift MacOS Typing Game using SpriteKit
 
 ![alt text](https://i.imgur.com/nirw63I.png)
 
