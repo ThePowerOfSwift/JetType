@@ -14,7 +14,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     //Game Nodes
     var player: SKSpriteNode?;
     var playerFireSFX: SKNode?;
-
+    
     //UI Nodes
     var startButton: SKSpriteNode?;
     var characterLabel : SKLabelNode?
@@ -46,8 +46,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var currKeyCode: Int?;
     
     //Input
-    let characters = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9"];
-    let keycodes = [0x00,0x0B,0x08,0x02,0x0E,0x03,0x05,0x04,0x22,0x26,0x28,0x25,0x2E,0x2D,0x1F,0x23,0x0C,0x0F,0x01,0x11,0x20,0x09,0x0D,0x07,0x10,0x06,0x1D,0x12,0x13,0x14,0x15,0x17,0x16,0x1A,0x1C,0x19];
+    let characters = ["Click!","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9"];
+    let keycodes = [-1,0x00,0x0B,0x08,0x02,0x0E,0x03,0x05,0x04,0x22,0x26,0x28,0x25,0x2E,0x2D,0x1F,0x23,0x0C,0x0F,0x01,0x11,0x20,0x09,0x0D,0x07,0x10,0x06,0x1D,0x12,0x13,0x14,0x15,0x17,0x16,0x1A,0x1C,0x19];
     
     override func didMove(to view: SKView)
     {
@@ -79,13 +79,16 @@ extension GameScene
         let eventKeyCode = event.keyCode;
         guard let vCurrKeyCode = currKeyCode else { return; }
         
-        switch eventKeyCode
+        if vCurrKeyCode >= 0
         {
-        //Spacebar
-        case UInt16(vCurrKeyCode):
-            jump();
-        default:
-            break;
+            switch eventKeyCode
+            {
+            //Spacebar
+            case UInt16(vCurrKeyCode):
+                jump();
+            default:
+                break;
+            }
         }
     }
     
@@ -102,6 +105,9 @@ extension GameScene
                 startGame();
             }
         }
+        
+        guard currKeyCode == -1 else { return; }
+        jump();
     }
 }
 
@@ -149,7 +155,6 @@ extension GameScene
         guard let vCharacterLabel = characterLabel else { return; }
         vCharacterLabel.alpha = 1.0;
         
-
         guard let vPlayer = player else { return; }
         vPlayer.position = playerStartPos;
         vPlayer.isHidden = false;
