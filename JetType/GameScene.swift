@@ -13,6 +13,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
 {
     //Game Nodes
     var player: SKSpriteNode?;
+    var playerFireSFX: SKNode?;
 
     //UI Nodes
     var startButton: SKSpriteNode?;
@@ -111,6 +112,8 @@ extension GameScene
     {
         //GameObjects
         player = self.childNode(withName: "player") as? SKSpriteNode;
+        playerFireSFX = self.childNode(withName: "playerDeathSFX");
+        playerFireSFX?.alpha = 0.0;
         
         //UI
         startButton = self.childNode(withName: "//startButton") as? SKSpriteNode;
@@ -146,10 +149,15 @@ extension GameScene
         guard let vCharacterLabel = characterLabel else { return; }
         vCharacterLabel.alpha = 1.0;
         
-        
+
         guard let vPlayer = player else { return; }
         vPlayer.position = playerStartPos;
+        vPlayer.isHidden = false;
         vPlayer.physicsBody?.pinned = false;
+        vPlayer.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 100));
+        
+        guard let vPlayerDeathSFX = playerFireSFX else { return; }
+        vPlayerDeathSFX.alpha = 0.0;
         
         guard let vStartButton = startButton else { return; }
         vStartButton.removeFromParent();
@@ -165,6 +173,10 @@ extension GameScene
         
         guard let vPlayer = player else { return; }
         vPlayer.physicsBody?.pinned = true;
+        vPlayer.isHidden = true;
+        
+        guard let vPlayerDeathSFX = playerFireSFX else { return; }
+        vPlayerDeathSFX.alpha = 1.0;
         
         guard let vStartButton = startButton else { return; }
         guard vStartButton.parent != self else { return; }
